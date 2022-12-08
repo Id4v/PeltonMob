@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "module": "es6",
+    "allowJs": true,
+    "paths": {
+      "*": ["src/*"]
+    }
+  }
+}
