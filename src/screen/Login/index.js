@@ -11,32 +11,27 @@ import {
 } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import Client from "api/client";
 import Password from "components/Password";
+import { useDispatch, useSelector } from "react-redux";
+import { authenticate, getJwtToken, isLoggedIn } from "./userSlice";
 
 export default function Login() {
   const isInvalid = false;
+  const jwtToken = useSelector(getJwtToken);
+  const loggedIn = useSelector(isLoggedIn);
+  const dispatch = useDispatch();
 
-  const [jwtToken, setJwtToken] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  if (jwtToken) {
+  if (loggedIn) {
     console.log(jwtToken);
     return null;
   }
 
   function handleLogin() {
-    const api = new Client();
-    if (username && password) {
-      api
-        .authenticate(username, password)
-        .then((response) => {
-          setJwtToken(response.data.token);
-        })
-        .catch((error) => {
-          console.error("Bad Login");
-        });
+    if (username !== '' && password !== '') {
+      dispatch(authenticate({username, password}));
     }
   }
 
@@ -63,6 +58,8 @@ export default function Login() {
               value={username}
               onChangeText={setUsername}
               keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
             />
           </Box>
           <Box>

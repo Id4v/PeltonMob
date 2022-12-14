@@ -9,6 +9,27 @@ class Client {
         Accept: "application/json",
       },
     });
+    this._client.interceptors.response.use((response) => response, (error) => {
+      if (error.response) {
+        // Special case : HTTP401 is managed by JWT and return a response instead of an exception.
+        if (error.response.status == 401) {
+          return Promise.reject({
+            code: '401',
+            name: 'Unauthorized',
+            message: error.response.data.message,
+            stack : error.stack
+          })
+        }
+        return Promise
+            .reject({
+              code: String(error.response.status),
+              name:error.name,
+              message:error.response.data.detail,
+              stack: error.stack
+            });
+      }
+      return Promise.reject(error);
+    })
   }
 
   authenticate = (username, password) => {
@@ -16,9 +37,9 @@ class Client {
       return this._client.post("/api/login", {
         username,
         password,
-      });
+      }).then((payload) => payload.data);
     } catch (error) {
-      console.debug(error);
+      console.error(error);
       return;
     }
   };
