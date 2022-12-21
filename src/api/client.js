@@ -44,6 +44,8 @@ class Client {
       return null;
     }
   };
+
+  register = (data) => this.client.post('/api/register', data).then((payload) => payload.data);
 }
 
 export default Client;

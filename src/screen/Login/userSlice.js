@@ -10,6 +10,14 @@ export const authenticate = createAsyncThunk(
   },
 );
 
+export const register = createAsyncThunk(
+  'user/register',
+  async (data) => {
+    const api = new Client();
+    return api.register(data);
+  },
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
