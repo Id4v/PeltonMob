@@ -12,8 +12,7 @@ export function showToast({ type, title, message, placement }) {
   if (placement === undefined) {
     placement = "top";
   }
-
-  console.debug(item);
+  
   const ToastAlert = ({
                         id,
                         status,

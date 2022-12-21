@@ -42,12 +42,7 @@ export default function Register({navigation}) {
     } catch (error) {
       dispatch(hideLoader());
 
-      Toast.show({
-        placement: 'bottom',
-        backgroundColor: 'red.800',
-        color: 'white',
-        title: error.message,
-      });
+      showToast({type: 'error', 'title': 'Une erreur s\'est produite', message:error.message})
     }
   };
 

@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from 'features/Login/userSlice';
-import loadingReducer from 'components/LoadingView/loaderSlice';
+import userReducer from '@app/features/Login/userSlice';
+import loadingReducer from '@app/components/LoadingView/loaderSlice';
 
 const store = configureStore({
   reducer: {
