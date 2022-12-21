@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Client from 'api/client';
+import Client from '@app/api/client';
 import { Toast } from 'native-base';
-import { hideLoader, showLoader } from 'components/LoadingView/loaderSlice';
+import { hideLoader, showLoader } from '@app/components/LoadingView/loaderSlice';
 import { CommonActions } from '@react-navigation/native';
 
 export const authenticate = createAsyncThunk(

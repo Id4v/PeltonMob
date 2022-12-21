@@ -1,1 +1,1 @@
-export default from 'features/Login/Login';
+export default from './Login';

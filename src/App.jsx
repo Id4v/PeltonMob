@@ -1,16 +1,16 @@
-import Login from 'features/Login';
+import Login from '@app/features/Login';
 import { useSelector } from 'react-redux';
-import { getJwtToken } from 'features/Login/userSlice';
-import Home from 'features/Home';
-import LostPassword from 'features/LostPassword';
-import Register from 'features/Register';
+import { getJwtToken } from '@app/features/Login/userSlice';
+import Home from '@app/features/Home';
+import LostPassword from '@app/features/LostPassword';
+import Register from '@app/features/Register';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import store from 'store';
+import store from '@app/store';
 import { extendTheme, NativeBaseProvider } from 'native-base';
 import { NavigationContainer } from '@react-navigation/native';
 import * as Linking from 'expo-linking';
-import LoadingView from 'components/LoadingView';
-import { isLoading } from 'components/LoadingView/loaderSlice';
+import LoadingView from '@app/components/LoadingView';
+import { isLoading } from '@app/components/LoadingView/loaderSlice';
 
 function configureDeepLinking(path = '/') {
   const prefix = Linking.createURL(path);

@@ -10,11 +10,11 @@ import {
 } from 'native-base';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
-import Password from 'components/Password';
+import Password from '@app/components/Password';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigation } from '@react-navigation/native';
 import { authenticate, getJwtToken, isLoggedIn } from './userSlice';
-import CurvedBackground from "components/CurvedBackground";
+import CurvedBackground from "@app/components/CurvedBackground";
 
 export default function Login() {
   const isInvalid = false;

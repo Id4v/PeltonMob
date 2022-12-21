@@ -2,11 +2,11 @@ import {
   Button, Center, FormControl, Heading, HStack, Icon, Input, VStack,
 } from 'native-base';
 import { useState } from 'react';
-import Password from 'components/Password';
+import Password from '@app/components/Password';
 import { MaterialIcons } from '@expo/vector-icons';
-import CurvedBackground from 'components/CurvedBackground';
+import CurvedBackground from '@app/components/CurvedBackground';
 import { useDispatch } from 'react-redux';
-import { register } from 'features/Login/userSlice';
+import { register } from '@app/features/Login/userSlice';
 
 export default function Register() {
   const [name, setName] = useState();

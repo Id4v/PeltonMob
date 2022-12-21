@@ -1,1 +1,1 @@
-export default from 'components/CurvedBackground/CurvedBackground';
+export default from './CurvedBackground';

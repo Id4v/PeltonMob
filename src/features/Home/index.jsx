@@ -1,1 +1,1 @@
-export default from 'features/Home/Home';
+export default from './Home';

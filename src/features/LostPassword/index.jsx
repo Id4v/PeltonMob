@@ -1,1 +1,1 @@
-export default from 'features/LostPassword/LostPassword';
+export default from './LostPassword';

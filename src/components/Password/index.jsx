@@ -1,1 +1,1 @@
-export default from 'components/Password/Password';
+export default from './Password';

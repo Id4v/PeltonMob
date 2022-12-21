@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
-import store from 'store';
+import store from '@app/store';
 import { StatusBar } from 'expo-status-bar';
-import App from 'App';
+import App from '@app/App';
 import { registerRootComponent } from 'expo';
 
 function Main() {

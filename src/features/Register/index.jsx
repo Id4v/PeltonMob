@@ -1,1 +1,1 @@
-export default from 'features/Register/Register';
+export default from './Register';
