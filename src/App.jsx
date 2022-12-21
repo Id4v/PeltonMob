@@ -1,9 +1,9 @@
-import Login from 'screen/Login';
+import Login from 'features/Login';
 import { useSelector } from 'react-redux';
-import { getJwtToken } from 'screen/Login/userSlice';
-import Home from 'screen/Home';
-import LostPassword from 'screen/LostPassword';
-import Register from 'screen/Register';
+import { getJwtToken } from 'features/Login/userSlice';
+import Home from 'features/Home';
+import LostPassword from 'features/LostPassword';
+import Register from 'features/Register';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import store from 'store';
 import { extendTheme, NativeBaseProvider } from 'native-base';
