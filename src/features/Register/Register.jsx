@@ -8,6 +8,7 @@ import CurvedBackground from '@app/components/CurvedBackground';
 import {useDispatch} from 'react-redux';
 import Client from "@app/api/client";
 import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
+import {showToast} from "@app/components/Toast";
 
 export default function Register({navigation}) {
   const [name, setName] = useState();
@@ -34,6 +35,8 @@ export default function Register({navigation}) {
       dispatch(hideLoader());
 
       navigation.navigate("Login");
+
+      showToast({type: 'success', title: "Inscription réussie", message: "Inscription bien reçue. Vérifie tes emails pour pouvoir te connecter."})
 
       return response;
     } catch (error) {
