@@ -1,21 +1,32 @@
 import {
-  Box, Button, Center, FormControl, Heading, HStack, Icon, Input, VStack,
+  Button, Center, FormControl, Heading, HStack, Icon, Input, VStack,
 } from 'native-base';
 import { useState } from 'react';
 import Password from 'components/Password';
 import { MaterialIcons } from '@expo/vector-icons';
-import CurvedBackground from "components/CurvedBackground";
+import CurvedBackground from 'components/CurvedBackground';
+import { useDispatch } from 'react-redux';
+import { hideLoader, showLoader } from 'components/LoadingView/loaderSlice';
+import { register } from 'screen/Login/userSlice';
 
 export default function Register() {
-  const isInvalid = false;
   const [name, setName] = useState();
   const [firstname, setFirstName] = useState();
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const dispatch = useDispatch();
 
   const handleRegister = () => {
-
+    dispatch(
+      register({
+        firstname,
+        lastname: name,
+        username,
+        email,
+        password,
+      }),
+    );
   };
 
   return (

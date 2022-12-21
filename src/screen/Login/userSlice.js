@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import Client from 'api/client';
 import { Toast } from 'native-base';
+import { hideLoader, showLoader } from 'components/LoadingView/loaderSlice';
+import { CommonActions } from '@react-navigation/native';
 
 export const authenticate = createAsyncThunk(
   'user/authenticate',
@@ -12,9 +14,24 @@ export const authenticate = createAsyncThunk(
 
 export const register = createAsyncThunk(
   'user/register',
-  async (data) => {
+  async (data, { dispatch }) => {
     const api = new Client();
-    return api.register(data);
+    dispatch(showLoader());
+    return api.register(data)
+      .catch((er) => {
+        dispatch(hideLoader());
+        Toast.show({
+          placement: 'bottom',
+          backgroundColor: 'red.800',
+          color: 'white',
+          title: er.message,
+        });
+      })
+      .then((response) => {
+        dispatch(hideLoader());
+        dispatch(CommonActions.navigate({ name: 'Login' }));
+        return response.data;
+      });
   },
 );
 

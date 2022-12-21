@@ -6,19 +6,20 @@ const loaderSlice = createSlice({
     isVisible: false,
   },
   reducers: {
-    show: (state) => {
+    showLoader: (state) => {
+      console.log('showLoad');
       state.isVisible = true;
     },
-    hide: (state) => {
+    hideLoader: (state) => {
       state.isVisible = false;
     },
-    toggle: (state) => {
+    toggleLoader: (state) => {
       state.isVisible = !state.isVisible;
     },
   },
 });
 
-export const { show, hide, toggle } = loaderSlice.actions;
+export const { showLoader, hideLoader, toggleLoader } = loaderSlice.actions;
 
 export default loaderSlice.reducer;
 
