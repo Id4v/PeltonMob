@@ -1,14 +1,15 @@
 import {
-  Button, Center, FormControl, Heading, HStack, Icon, Input, VStack,
+  Button, Center, FormControl, Heading, HStack, Icon, Input, Toast, VStack,
 } from 'native-base';
-import { useState } from 'react';
+import {useState} from 'react';
 import Password from '@app/components/Password';
-import { MaterialIcons } from '@expo/vector-icons';
+import {MaterialIcons} from '@expo/vector-icons';
 import CurvedBackground from '@app/components/CurvedBackground';
-import { useDispatch } from 'react-redux';
-import { register } from '@app/features/Login/userSlice';
+import {useDispatch} from 'react-redux';
+import Client from "@app/api/client";
+import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
 
-export default function Register() {
+export default function Register({navigation}) {
   const [name, setName] = useState();
   const [firstname, setFirstName] = useState();
   const [username, setUsername] = useState();
@@ -16,21 +17,40 @@ export default function Register() {
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
 
-  const handleRegister = () => {
-    dispatch(
-      register({
-        firstname,
-        lastname: name,
+  const handleRegister = async () => {
+    const api = new Client();
+
+    dispatch(showLoader());
+
+    try {
+      const response = await api.register({
         username,
         email,
-        password,
-      }),
-    );
+        lastname: name,
+        firstname,
+        password
+      });
+
+      dispatch(hideLoader());
+
+      navigation.navigate("Login");
+
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+
+      Toast.show({
+        placement: 'bottom',
+        backgroundColor: 'red.800',
+        color: 'white',
+        title: error.message,
+      });
+    }
   };
 
   return (
     <Center flex={1} backgroundColor="white">
-      <CurvedBackground />
+      <CurvedBackground/>
       <VStack w="100%" alignItems="center" justifyItems="center" space={5} px={4}>
         <Heading>Inscrivez-vous</Heading>
         <HStack py={3} space={3}>
@@ -88,7 +108,7 @@ export default function Register() {
           />
         </FormControl>
         <Button
-          startIcon={<Icon as={MaterialIcons} name="person-add" size="sm" />}
+          startIcon={<Icon as={MaterialIcons} name="person-add" size="sm"/>}
           onPress={handleRegister}
         >
           S&apos;inscrire

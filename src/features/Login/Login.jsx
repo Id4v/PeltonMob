@@ -8,12 +8,12 @@ import {
   Input, Link,
   VStack,
 } from 'native-base';
-import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import {MaterialIcons} from '@expo/vector-icons';
+import {useState} from 'react';
 import Password from '@app/components/Password';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { authenticate, getJwtToken, isLoggedIn } from './userSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {authenticate, getJwtToken, isLoggedIn} from './userSlice';
 import CurvedBackground from "@app/components/CurvedBackground";
 
 export default function Login() {
@@ -33,7 +33,7 @@ export default function Login() {
 
   function handleLogin() {
     if (username !== '' && password !== '') {
-      dispatch(authenticate({ username, password }));
+      dispatch(authenticate({username, password}));
     }
   }
 
@@ -42,7 +42,7 @@ export default function Login() {
   }
 
   return (
-    <Center flex={1} alignItems="center">
+    <Center flex={1} alignItems="center" alignContent="space-between">
       <CurvedBackground />
       <VStack
         space="5"
@@ -51,7 +51,7 @@ export default function Login() {
         w="100%"
         px={4}
       >
-        <Heading>Welcome to Padel Play</Heading>
+        <Heading size={"xl"} color={"primary.900"}>Welcome to Padel Play</Heading>
         <Heading size="md">Connectez-vous</Heading>
         <FormControl isRequired isInvalid={isInvalid}>
           <FormControl.ErrorMessage>
@@ -86,17 +86,18 @@ export default function Login() {
           Connexion
         </Button>
         <Link onPress={() => {
-          goTo('register');
-        }}
-        >
-          Pas encore inscrit ?
-        </Link>
-        <Link onPress={() => {
           goTo('lostPassword');
         }}
         >
           Mot de passe perdu ?
         </Link>
+        <Heading size="xl" mt={"100"}>Pas encore inscrit ?</Heading>
+        <Button bgColor={"tertiary.600"} onPress={() => {
+          goTo('register');
+        }}
+        >
+          Crée ton compte !
+        </Button>
       </VStack>
     </Center>
   );
