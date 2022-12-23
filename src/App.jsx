@@ -1,6 +1,6 @@
 import Login from '@app/features/Login';
 import { useSelector } from 'react-redux';
-import { getJwtToken } from '@app/features/Login/userSlice';
+import {getJwtToken, isLoggedIn} from '@app/features/Login/userSlice';
 import Home from '@app/features/Home';
 import LostPassword from '@app/features/LostPassword';
 import Register from '@app/features/Register';
@@ -12,10 +12,24 @@ import * as Linking from 'expo-linking';
 import LoadingView from '@app/components/LoadingView';
 import { isLoading } from '@app/components/LoadingView/loaderSlice';
 
-function configureDeepLinking(path = '/') {
+function configureDeepLinking(isLogged, path = '/') {
   const prefix = Linking.createURL(path);
+
+  let homeScreen = {Home: '/'}
+
+  if (isLogged) {
+    homeScreen = {Login : '/'}
+  }
+
+  let screens = {
+    ...homeScreen
+  }
+
   const linking = {
-    prefixes: [prefix],
+    prefixes: [prefix, 'https://padel.wip'],
+    config: {
+      screens
+    }
   };
 
   return linking;
@@ -32,12 +46,13 @@ function configureTheme() {
 
 export default function App() {
   const jwtToken = useSelector(getJwtToken);
+  const isLogged = useSelector(isLoggedIn);
   const loading = useSelector(isLoading);
   const Stack = createNativeStackNavigator();
 
   return (
     <NativeBaseProvider theme={configureTheme()}>
-      <NavigationContainer initialState={store.initialState} linking={configureDeepLinking('/')}>
+      <NavigationContainer initialState={store.initialState} linking={configureDeepLinking(isLogged, '/')}>
         {
           (loading) ? (
             <LoadingView />
