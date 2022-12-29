@@ -48,7 +48,6 @@ export default function Register({navigation}) {
 
   return (
     <Center flex={1} backgroundColor="white">
-      <CurvedBackground/>
       <VStack w="100%" alignItems="center" justifyItems="center" space={5} px={4}>
         <Heading>Inscrivez-vous</Heading>
         <HStack py={3} space={3}>

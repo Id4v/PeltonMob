@@ -1,7 +1,8 @@
+import 'react-native-gesture-handler';
 import { Provider } from 'react-redux';
 import store from '@app/store';
 import { StatusBar } from 'expo-status-bar';
-import App from '@app/App';
+import App from '@app/components/App';
 import { registerRootComponent } from 'expo';
 
 function Main() {

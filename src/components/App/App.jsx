@@ -1,16 +1,16 @@
 import Login from '@app/features/Login';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 import {getJwtToken, isLoggedIn} from '@app/features/Login/userSlice';
-import Home from '@app/features/Home';
 import LostPassword from '@app/features/LostPassword';
 import Register from '@app/features/Register';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import store from '@app/store';
-import { extendTheme, NativeBaseProvider } from 'native-base';
-import { NavigationContainer } from '@react-navigation/native';
+import {extendTheme, NativeBaseProvider} from 'native-base';
+import {NavigationContainer} from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import LoadingView from '@app/components/LoadingView';
-import { isLoading } from '@app/components/LoadingView/loaderSlice';
+import {isLoading} from '@app/components/LoadingView/loaderSlice';
+import {HomeDrawer} from "@app/components/HomeDrawer";
 
 function configureDeepLinking(isLogged, path = '/') {
   const prefix = Linking.createURL(path);
@@ -18,7 +18,7 @@ function configureDeepLinking(isLogged, path = '/') {
   let homeScreen = {Home: '/'}
 
   if (isLogged) {
-    homeScreen = {Login : '/'}
+    homeScreen = {Login: '/'}
   }
 
   let screens = {
@@ -39,7 +39,7 @@ function configureTheme() {
   const themeConfig = {
     useSystemColorMode: false,
   };
-  const customTheme = extendTheme({ themeConfig });
+  const customTheme = extendTheme({themeConfig});
 
   return customTheme;
 }
@@ -49,38 +49,48 @@ export default function App() {
   const isLogged = useSelector(isLoggedIn);
   const loading = useSelector(isLoading);
   const Stack = createNativeStackNavigator();
+  const theme = configureTheme();
 
   return (
-    <NativeBaseProvider theme={configureTheme()}>
+    <NativeBaseProvider theme={theme}>
+      {
+        (loading) ? (
+          <LoadingView/>
+        ) : (null)
+      }
       <NavigationContainer initialState={store.initialState} linking={configureDeepLinking(isLogged, '/')}>
-        {
-          (loading) ? (
-            <LoadingView />
-          ) : (null)
-        }
         <Stack.Navigator>
           {
             (jwtToken == null)
               ? (
-                <>
+                <Stack.Group navigationKey={'guest'}>
                   <Stack.Screen
                     name="Login"
                     component={Login}
-                    options={{ headerShown: false }}
+                    options={{headerShown: false}}
                   />
                   <Stack.Screen
                     name="register"
                     component={Register}
-                    options={{ headerTitle: 'Inscription' }}
+                    options={{headerTitle: 'Inscription'}}
                   />
                   <Stack.Screen
                     name="lostPassword"
                     component={LostPassword}
-                    options={{ headerTitle: 'Mot de passe perdu' }}
+                    options={{headerTitle: 'Mot de passe perdu'}}
                   />
-                </>
+                </Stack.Group>
               ) : (
-                <Stack.Screen name="Home" component={Home} />
+                <Stack.Group
+                  navigationKey={"user"}
+                  screenOptions={
+                    {
+                      headerShown: false
+                    }
+                  }
+                >
+                  <Stack.Screen name={'HomeDrawer'} component={HomeDrawer}/>
+                </Stack.Group>
               )
           }
         </Stack.Navigator>

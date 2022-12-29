@@ -45,6 +45,8 @@ class Client {
   };
 
   register = (data) => this.client.post('/api/register', data).then((payload) => payload.data);
+
+  requestResetPassword = (email) => this.client.post('/api/password/request', {email}).then((payload) => payload.data);
 }
 
 export default Client;
