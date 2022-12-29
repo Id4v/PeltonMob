@@ -1,14 +1,29 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import Client from '@app/api/client';
-import {showToast} from "@app/components/Toast";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import Api from '@app/api/client';
+import {logout, onAuthenticate, onAuthenticateFailed, onGetProfile} from "@app/features/Login/reducers";
+import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
 
 export const authenticate = createAsyncThunk(
   'user/authenticate',
-  async ({ username, password }) => {
-    const api = new Client();
-    return api.authenticate(username, password);
+  async ({ username, password }, {dispatch}) => {
+    dispatch(showLoader({text:'Connexion...'}));
+    const response = await Api.authenticate(username, password);
+    Api.setHeaderToken(response.token);
+
+    await dispatch(getProfile());
+    dispatch(hideLoader());
+    return {
+      token : response.token,
+    };
   },
 );
+
+export const getProfile = createAsyncThunk(
+  'user/getProfile',
+  async () => {
+    return Api.getProfile();
+  }
+)
 
 export const userSlice = createSlice({
   name: 'user',
@@ -16,28 +31,20 @@ export const userSlice = createSlice({
     loggedIn: false,
     jwtToken: null,
     hasLoginError: false,
+    profile : null,
   },
   reducers: {
-    logout: (state) => {
-      state.jwtToken = null;
-      state.loggedIn = false;
-    },
+    logout,
   },
   extraReducers: (builder) => {
-    builder.addCase(authenticate.fulfilled, (state, action) => {
-      state.hasLoginError = false;
-      state.jwtToken = action.payload.token;
-      state.loggedIn = true;
-    });
-    builder.addCase(authenticate.rejected, (state, action) => {
-      showToast({type: 'error', title: 'Une erreur s\'est produite.', message: action.error.message});
-    });
+    builder.addCase(authenticate.fulfilled, onAuthenticate);
+    builder.addCase(authenticate.rejected, onAuthenticateFailed);
+    builder.addCase(getProfile.fulfilled, onGetProfile)
   },
 });
 
-export const { logout } = userSlice.actions;
+export const {logoutAction} = userSlice.actions;
 
-export const getJwtToken = (state) => state.user.jwtToken;
-export const isLoggedIn = (state) => state.user.loggedIn;
+export { isLoggedIn, getJwtToken, getUsername } from './selectors';
 
 export default userSlice.reducer;

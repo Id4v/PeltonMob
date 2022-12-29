@@ -1,6 +1,6 @@
 import Login from '@app/features/Login';
-import {useSelector} from 'react-redux';
-import {getJwtToken, isLoggedIn} from '@app/features/Login/userSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {getJwtToken, getProfile, isLoggedIn} from '@app/features/Login/userSlice';
 import LostPassword from '@app/features/LostPassword';
 import Register from '@app/features/Register';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -10,7 +10,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import LoadingView from '@app/components/LoadingView';
 import {isLoading} from '@app/components/LoadingView/loaderSlice';
-import {HomeDrawer} from "@app/components/HomeDrawer";
+import {LeftDrawer} from "@app/components/LeftDrawer";
+import {useEffect} from "react";
+import Api from '@app/api/client';
 
 function configureDeepLinking(isLogged, path = '/') {
   const prefix = Linking.createURL(path);
@@ -45,11 +47,19 @@ function configureTheme() {
 }
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+  const theme = configureTheme();
+  const dispatch = useDispatch();
+
   const jwtToken = useSelector(getJwtToken);
   const isLogged = useSelector(isLoggedIn);
   const loading = useSelector(isLoading);
-  const Stack = createNativeStackNavigator();
-  const theme = configureTheme();
+
+  useEffect(() => {
+    if (jwtToken !== null) {
+      Api.setHeaderToken(jwtToken);
+    }
+  }, [jwtToken]);
 
   return (
     <NativeBaseProvider theme={theme}>
@@ -89,7 +99,7 @@ export default function App() {
                     }
                   }
                 >
-                  <Stack.Screen name={'HomeDrawer'} component={HomeDrawer}/>
+                  <Stack.Screen name={'LeftDrawer'} component={LeftDrawer}/>
                 </Stack.Group>
               )
           }

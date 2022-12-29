@@ -4,9 +4,8 @@ import {
 import {useState} from 'react';
 import Password from '@app/components/Password';
 import {MaterialIcons} from '@expo/vector-icons';
-import CurvedBackground from '@app/components/CurvedBackground';
 import {useDispatch} from 'react-redux';
-import Client from "@app/api/client";
+import Api from "@app/api/client";
 import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
 import {showToast} from "@app/components/Toast";
 
@@ -19,12 +18,11 @@ export default function Register({navigation}) {
   const dispatch = useDispatch();
 
   const handleRegister = async () => {
-    const api = new Client();
 
     dispatch(showLoader());
 
     try {
-      const response = await api.register({
+      const response = await Api.register({
         username,
         email,
         lastname: name,

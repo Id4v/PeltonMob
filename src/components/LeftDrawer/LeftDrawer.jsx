@@ -2,8 +2,7 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 import Dashboard from "@app/features/Dashboard";
 import Home from "@app/features/Home";
 
-
-export default function HomeDrawer() {
+export default function LeftDrawer() {
   const Drawer = createDrawerNavigator();
 
   return (
@@ -17,6 +16,7 @@ export default function HomeDrawer() {
         options={{title: "Paramètres"}}
         component={Dashboard}
       />
+      <Drawer.Screen name={'Logout'} component={Dashboard} />
     </Drawer.Navigator>
   );
 }

@@ -1,11 +1,10 @@
-import {Box, Button, Center, FormControl, Heading, Icon, Input, Text, VStack} from 'native-base';
+import {Button, Center, FormControl, Heading, Icon, Input, Text, VStack} from 'native-base';
 import {useState} from "react";
 import {MaterialIcons} from "@expo/vector-icons";
-import {authenticate} from "@app/features/Login/userSlice";
 import {showToast} from "@app/components/Toast";
 import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
 import {useDispatch} from "react-redux";
-import Client from "@app/api/client";
+import Api from "@app/api/client";
 
 export default function ({navigation}) {
   const [email, setEmail] = useState('');
@@ -14,9 +13,8 @@ export default function ({navigation}) {
   async function handleSubmit() {
     if (email !== '') {
       dispatch(showLoader());
-      let api = new Client();
       try {
-        const response = await api.requestResetPassword(email);
+        const response = await Api.requestResetPassword(email);
         dispatch(hideLoader());
         navigation.navigate('Login');
         showToast({type: 'success', title: "Réinitialisation reçue", message: "Un email a été envoyé pour réinitialiser le mot de passe."})
