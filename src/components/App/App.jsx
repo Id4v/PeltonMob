@@ -1,18 +1,17 @@
 import Login from '@app/features/Login';
-import {useDispatch, useSelector} from 'react-redux';
-import {getJwtToken, getProfile, isLoggedIn} from '@app/features/Login/userSlice';
+import { useSelector} from 'react-redux';
+import {getJwtToken, isLoggedIn} from '@app/features/Login/userSlice';
 import LostPassword from '@app/features/LostPassword';
 import Register from '@app/features/Register';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import store from '@app/store';
 import {extendTheme, NativeBaseProvider} from 'native-base';
-import {NavigationContainer} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer} from '@react-navigation/native';
 import * as Linking from 'expo-linking';
 import LoadingView from '@app/components/LoadingView';
 import {isLoading} from '@app/components/LoadingView/loaderSlice';
 import {LeftDrawer} from "@app/components/LeftDrawer";
-import {useEffect} from "react";
-import Api from '@app/api/client';
+import {LinearGradient} from "expo-linear-gradient";
 
 function configureDeepLinking(isLogged, path = '/') {
   const prefix = Linking.createURL(path);
@@ -49,62 +48,75 @@ function configureTheme() {
 export default function App() {
   const Stack = createNativeStackNavigator();
   const theme = configureTheme();
-  const dispatch = useDispatch();
 
   const jwtToken = useSelector(getJwtToken);
   const isLogged = useSelector(isLoggedIn);
   const loading = useSelector(isLoading);
 
-  useEffect(() => {
-    if (jwtToken !== null) {
-      Api.setHeaderToken(jwtToken);
+  const navTheme = {
+    ...DefaultTheme,
+    colors: {
+      ...DefaultTheme.colors,
+      text: 'rgb(25,26,71)',
+      background: 'transparent',
     }
-  }, [jwtToken]);
+  }
 
   return (
     <NativeBaseProvider theme={theme}>
-      {
-        (loading) ? (
-          <LoadingView/>
-        ) : (null)
+      <LinearGradient
+        colors={['rgba(253,245,235,1)', 'rgba(253,230,230,1)', 'rgb(249,226,230)']}
+        locations={[0, 0.25, 1]}
+        start={{x:0,y:0}}
+        end={{x:1, y:1}}
+        style={{
+          flex:1
+        }
       }
-      <NavigationContainer initialState={store.initialState} linking={configureDeepLinking(isLogged, '/')}>
-        <Stack.Navigator>
-          {
-            (jwtToken == null)
-              ? (
-                <Stack.Group navigationKey={'guest'}>
-                  <Stack.Screen
-                    name="Login"
-                    component={Login}
-                    options={{headerShown: false}}
-                  />
-                  <Stack.Screen
-                    name="register"
-                    component={Register}
-                    options={{headerTitle: 'Inscription'}}
-                  />
-                  <Stack.Screen
-                    name="lostPassword"
-                    component={LostPassword}
-                    options={{headerTitle: 'Mot de passe perdu'}}
-                  />
-                </Stack.Group>
-              ) : (
-                <Stack.Group
-                  navigationKey={"user"}
-                  screenOptions={
-                    {
-                      headerShown: false
+      >
+        {
+          (loading) ? (
+            <LoadingView/>
+          ) : (null)
+        }
+        <NavigationContainer theme={navTheme} initialState={store.initialState} linking={configureDeepLinking(isLogged, '/')}>
+          <Stack.Navigator>
+            {
+              (jwtToken == null)
+                ? (
+                  <Stack.Group navigationKey={'guest'}>
+                    <Stack.Screen
+                      name="Login"
+                      component={Login}
+                      options={{headerShown: false}}
+                    />
+                    <Stack.Screen
+                      name="register"
+                      component={Register}
+                      options={{headerTitle: 'Inscription'}}
+                    />
+                    <Stack.Screen
+                      name="lostPassword"
+                      component={LostPassword}
+                      options={{headerTitle: 'Mot de passe perdu'}}
+                    />
+                  </Stack.Group>
+                ) : (
+                  <Stack.Group
+                    navigationKey={"user"}
+                    screenOptions={
+                      {
+                        headerShown: false
+                      }
                     }
-                  }
-                >
-                  <Stack.Screen name={'LeftDrawer'} component={LeftDrawer}/>
-                </Stack.Group>
-              )
-          }
-        </Stack.Navigator>
-      </NavigationContainer>
+                  >
+                    <Stack.Screen name={'LeftDrawer'} component={LeftDrawer}/>
+                  </Stack.Group>
+                )
+            }
+          </Stack.Navigator>
+        </NavigationContainer>
+      </LinearGradient>
     </NativeBaseProvider>
   );
 }

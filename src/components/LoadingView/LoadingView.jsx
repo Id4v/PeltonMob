@@ -11,12 +11,11 @@ export default function LoadingView() {
 
 
   return (
-    <Center w={Dimensions.get('screen').width} h={Dimensions.get('screen').height}>
+    <Center w={Dimensions.get('screen').width} h={Dimensions.get('screen').height} bg={"white"}>
       <HStack space={2} justifyContent="center">
         <Spinner size="lg" />
         <Heading color="primary.600" fontSize="2xl" letterSpacing={4}>{text}</Heading>
       </HStack>
-      <CurvedBackground />
     </Center>
   );
 }

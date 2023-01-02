@@ -6,7 +6,14 @@ export default function LeftDrawer() {
   const Drawer = createDrawerNavigator();
 
   return (
-    <Drawer.Navigator initialRouteName={'Home'}>
+    <Drawer.Navigator initialRouteName={'Home'} screenOptions={
+      {
+        headerTitle: '',
+        headerStyle: {
+          backgroundColor: 'transparent',
+        }
+      }
+    }>
       <Drawer.Screen name={'Home'} component={Home} />
       <Drawer.Screen name={'Dashboard'} component={Dashboard}/>
       <Drawer.Screen name={'Profil'} component={Dashboard}/>

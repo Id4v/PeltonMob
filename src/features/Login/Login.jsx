@@ -24,8 +24,7 @@ export default function Login({navigation}) {
   const [password, setPassword] = useState('');
 
   if (loggedIn) {
-    console.log(jwtToken);
-    return null;
+    navigation.navigate('Home');
   }
 
   function handleLogin() {
