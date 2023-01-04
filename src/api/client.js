@@ -4,6 +4,7 @@ class Client {
 
   static client = null;
   axiosClient = null;
+  store = null;
 
   static get instance() {
     if (!this.client) {
@@ -28,8 +29,6 @@ class Client {
         Accept: 'application/json',
       },
     });
-
-    this.configureInterceptors();
   }
 
   setConfigure(configuration) {
@@ -45,6 +44,10 @@ class Client {
       ...this.axiosClient.defaults,
       ...rest,
     }
+  }
+
+  setStore(store) {
+    this.store = store;
   }
 
   setHeaderToken = (userToken = '') => {
@@ -98,6 +101,18 @@ class Client {
         return Promise.reject(error);
       }
     );
+
+  }
+
+  addResponseInterceptor(onFulfilled, onRejected) {
+
+    const bindedFulfilled = onFulfilled.bind(this);
+    const bindedRejected = onRejected.bind(this);
+
+    this.axiosClient.interceptors.response.use(
+      bindedFulfilled,
+      bindedRejected,
+    )
   }
 }
 

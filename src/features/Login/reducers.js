@@ -8,7 +8,7 @@ export const logout = (state) => {
 export const onAuthenticate = (state, action) => {
   state.hasLoginError = false;
   state.jwtToken = action.payload.token;
-  state.loggedIn = true;
+  state.loggedIn = action.payload.token !== null;
 };
 
 export const onAuthenticateFailed = (state, action) => {

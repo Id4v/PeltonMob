@@ -11,7 +11,7 @@ const loaderSlice = createSlice({
       state.isVisible = true;
       state.text = 'Loading...';
 
-      if (action.payload.text) {
+      if (action.payload && action.payload.text) {
         state.text = action.payload.text;
       }
 
