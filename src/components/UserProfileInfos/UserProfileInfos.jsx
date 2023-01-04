@@ -7,7 +7,7 @@ export default function UserProfileInfos(props) {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    setIsLoaded(props.user !== null);
+    setIsLoaded(props.user !== null && props.user !== undefined);
     setUser(props.user);
   },[props.user]);
 

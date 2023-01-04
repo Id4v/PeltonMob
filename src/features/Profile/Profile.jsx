@@ -28,17 +28,19 @@ export default function Profile({navigation}) {
   const [isLoaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 
-  function onScreenFocused () {
+  function onScreenFocused() {
     dispatch(fetchProfile())
       .then(
         (action) => {
-          setLoaded(true);
+          setLoaded(action.payload !== undefined);
           setProfile(action.payload);
         }
       )
-      .catch((error) => {
-        setLoaded(true);
-      })
+      .catch(
+        (error) => {
+          setLoaded(false);
+        }
+      )
   }
 
   useEffect(() => {
@@ -63,7 +65,7 @@ export default function Profile({navigation}) {
           <Title>
             <Text my={0} py={0} fontSize={"2xl"}>Ton meilleur <Text bold>profil</Text></Text>
           </Title>
-          <UserProfileInfos user={profile} />
+          <UserProfileInfos user={profile}/>
 
           <Box rounded={'lg'} bg={"white"} p={3}>
             <Column>
