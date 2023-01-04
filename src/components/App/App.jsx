@@ -65,8 +65,9 @@ export default function App() {
   return (
     <NativeBaseProvider theme={theme}>
       <LinearGradient
-        colors={['rgba(253,245,235,1)', 'rgba(253,230,230,1)', 'rgb(249,226,230)']}
-        locations={[0, 0.25, 1]}
+        //colors={['rgba(253,245,235,1)', 'rgba(253,230,230,1)', 'rgb(249,226,230)']}
+        colors={['rgb(239,237,238)', 'rgb(208,145,145)', 'rgb(173,127,126)']}
+        locations={[0, 0.5, 1]}
         start={{x:0,y:0}}
         end={{x:1, y:1}}
         style={{

@@ -12,7 +12,7 @@ import {MaterialIcons} from '@expo/vector-icons';
 import {useState} from 'react';
 import Password from '@app/components/Password';
 import {useDispatch, useSelector} from 'react-redux';
-import {authenticate, getJwtToken, getProfile, isLoggedIn} from './userSlice';
+import {authenticate, getJwtToken, isLoggedIn} from './userSlice';
 
 export default function Login({navigation}) {
   const isInvalid = false;

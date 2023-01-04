@@ -1,6 +1,7 @@
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import Dashboard from "@app/features/Dashboard";
 import Home from "@app/features/Home";
+import Profile from "@app/features/Profile";
 
 export default function LeftDrawer() {
   const Drawer = createDrawerNavigator();
@@ -9,6 +10,7 @@ export default function LeftDrawer() {
     <Drawer.Navigator initialRouteName={'Home'} screenOptions={
       {
         headerTitle: '',
+        headerShadowVisible: false,
         headerStyle: {
           backgroundColor: 'transparent',
         }
@@ -16,7 +18,7 @@ export default function LeftDrawer() {
     }>
       <Drawer.Screen name={'Home'} component={Home} />
       <Drawer.Screen name={'Dashboard'} component={Dashboard}/>
-      <Drawer.Screen name={'Profil'} component={Dashboard}/>
+      <Drawer.Screen name={'Profil'} component={Profile}/>
       <Drawer.Screen name={'Classement'} component={Dashboard}/>
       <Drawer.Screen
         name={'Settings'}

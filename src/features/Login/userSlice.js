@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import Api from '@app/api/client';
-import {logout, onAuthenticate, onAuthenticateFailed, onGetProfile} from "@app/features/Login/reducers";
+import {logout, onAuthenticate, onAuthenticateFailed, onFetchProfile} from "@app/features/Login/reducers";
 import {hideLoader, showLoader} from "@app/components/LoadingView/loaderSlice";
 
 export const authenticate = createAsyncThunk(
@@ -10,7 +10,7 @@ export const authenticate = createAsyncThunk(
     const response = await Api.authenticate(username, password);
     Api.setHeaderToken(response.token);
 
-    await dispatch(getProfile());
+    await dispatch(fetchProfile());
     dispatch(hideLoader());
     return {
       token : response.token,
@@ -18,8 +18,8 @@ export const authenticate = createAsyncThunk(
   },
 );
 
-export const getProfile = createAsyncThunk(
-  'user/getProfile',
+export const fetchProfile = createAsyncThunk(
+  'user/fetchProfile',
   async () => {
     return Api.getProfile();
   }
@@ -39,12 +39,12 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(authenticate.fulfilled, onAuthenticate);
     builder.addCase(authenticate.rejected, onAuthenticateFailed);
-    builder.addCase(getProfile.fulfilled, onGetProfile)
+    builder.addCase(fetchProfile.fulfilled, onFetchProfile)
   },
 });
 
 export const {logoutAction} = userSlice.actions;
 
-export { isLoggedIn, getJwtToken, getUsername } from './selectors';
+export { isLoggedIn, getJwtToken, getUsername, getProfileInfo } from './selectors';
 
 export default userSlice.reducer;

@@ -15,6 +15,6 @@ export const onAuthenticateFailed = (state, action) => {
   showToast({type: 'error', title: 'Une erreur s\'est produite.', message: action.error.message});
 };
 
-export const onGetProfile = (state, action) => {
+export const onFetchProfile = (state, action) => {
   state.profile = action.payload;
 };
