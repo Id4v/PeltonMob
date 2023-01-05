@@ -2,7 +2,6 @@ import {
   Center, Heading, HStack, Spinner,
 } from 'native-base';
 import {Dimensions} from 'react-native';
-import CurvedBackground from "@app/components/CurvedBackground";
 import {useSelector} from "react-redux";
 import {getText} from "@app/components/LoadingView/loaderSlice";
 
