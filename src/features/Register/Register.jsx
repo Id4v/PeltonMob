@@ -1,5 +1,5 @@
 import {
-  Button, Center, FormControl, Heading, HStack, Icon, Input, Toast, VStack,
+  Button, Center, FormControl, Heading, HStack, Icon, Input, KeyboardAvoidingView, ScrollView, Toast, VStack,
 } from 'native-base';
 import {useState} from 'react';
 import Password from '@app/components/Password';
@@ -14,6 +14,7 @@ export default function Register({navigation}) {
   const [firstname, setFirstName] = useState();
   const [username, setUsername] = useState();
   const [email, setEmail] = useState();
+  const [tel, setTel] = useState();
   const [password, setPassword] = useState();
   const dispatch = useDispatch();
 
@@ -27,6 +28,7 @@ export default function Register({navigation}) {
         email,
         lastname: name,
         firstname,
+        phoneNumber: tel,
         password
       });
 
@@ -34,81 +36,99 @@ export default function Register({navigation}) {
 
       navigation.navigate("Login");
 
-      showToast({type: 'success', title: "Inscription réussie", message: "Inscription bien reçue. Vérifie tes emails pour pouvoir te connecter."})
+      showToast({
+        type: 'success',
+        title: "Inscription réussie",
+        message: "Inscription bien reçue. Vérifie tes emails pour pouvoir te connecter."
+      })
 
       return response;
     } catch (error) {
       dispatch(hideLoader());
 
-      showToast({type: 'error', 'title': 'Une erreur s\'est produite', message:error.message})
+      showToast({type: 'error', 'title': 'Une erreur s\'est produite', message: error.message})
     }
   };
 
   return (
-    <Center flex={1} backgroundColor="white">
-      <VStack w="100%" alignItems="center" justifyItems="center" space={5} px={4}>
-        <Heading>Inscrivez-vous</Heading>
-        <HStack py={3} space={3}>
-          <FormControl flex={1}>
-            <FormControl.Label>Nom</FormControl.Label>
+      <Center bg={'white'} flex={1} justifyItems={'center'} py={30}>
+        <ScrollView w={'100%'} >
+        <VStack space={5} px={4}>
+          <Heading>Inscrivez-vous</Heading>
+          <HStack py={3} space={3}>
+            <FormControl flex={1}>
+              <FormControl.Label>Nom</FormControl.Label>
+              <Input
+                p={2}
+                placeholder="Nom"
+                value={name}
+                onChangeText={setName}
+              />
+            </FormControl>
+            <FormControl flex={1}>
+              <FormControl.Label>Prénom</FormControl.Label>
+              <Input
+                p={2}
+                placeholder="Prénom"
+                value={firstname}
+                onChangeText={setFirstName}
+              />
+            </FormControl>
+          </HStack>
+          <FormControl>
+            <FormControl.Label>Username</FormControl.Label>
             <Input
               p={2}
-              placeholder="Nom"
-              value={name}
-              onChangeText={setName}
+              placeholder="Username"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={username}
+              onChangeText={setUsername}
             />
           </FormControl>
-          <FormControl flex={1}>
-            <FormControl.Label>Prénom</FormControl.Label>
+          <FormControl>
+            <FormControl.Label>Email</FormControl.Label>
             <Input
               p={2}
-              placeholder="Prénom"
-              value={firstname}
-              onChangeText={setFirstName}
+              placeholder="Email"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={email}
+              onChangeText={setEmail}
             />
           </FormControl>
-        </HStack>
-        <FormControl>
-          <FormControl.Label>Username</FormControl.Label>
-          <Input
-            p={2}
-            placeholder="Username"
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={username}
-            onChangeText={setUsername}
-          />
-        </FormControl>
-        <FormControl>
-          <FormControl.Label>Email</FormControl.Label>
-          <Input
-            p={2}
-            placeholder="Email"
-            keyboardType="email-address"
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={email}
-            onChangeText={setEmail}
-          />
-        </FormControl>
-        <FormControl>
-          <FormControl.Label>Password</FormControl.Label>
-          <Password
-            p={2}
-            placeholder="Password"
-            autoCapitalize="none"
-            autoCorrect={false}
-            value={password}
-            onChangeText={setPassword}
-          />
-        </FormControl>
-        <Button
-          startIcon={<Icon as={MaterialIcons} name="person-add" size="sm"/>}
-          onPress={handleRegister}
-        >
-          S&apos;inscrire
-        </Button>
-      </VStack>
-    </Center>
+          <FormControl>
+            <FormControl.Label>Téléphone</FormControl.Label>
+            <Input
+              p={2}
+              placeholder="Téléphone"
+              keyboardType="phone-pad"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={tel}
+              onChangeText={setTel}
+            />
+          </FormControl>
+          <FormControl>
+            <FormControl.Label>Password</FormControl.Label>
+            <Password
+              p={2}
+              placeholder="Password"
+              autoCapitalize="none"
+              autoCorrect={false}
+              value={password}
+              onChangeText={setPassword}
+            />
+          </FormControl>
+          <Button
+            startIcon={<Icon as={MaterialIcons} name="person-add" size="sm"/>}
+            onPress={handleRegister}
+          >
+            S&apos;inscrire
+          </Button>
+        </VStack>
+        </ScrollView>
+      </Center>
   );
 }
